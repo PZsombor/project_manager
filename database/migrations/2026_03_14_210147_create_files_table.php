@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedBigInteger('commit_id');
             $table->foreign('commit_id')->references('id')->on('commits');
-            $table->string('path');
+            $table->string('path')->nullable();
             $table->timestamps();
         });
     }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('repository_id');
             $table->foreign('repository_id')->references('id')->on('repositories');
-            $table->string('role');
+            $table->string('role')->nullable();
             $table->timestamps();
         });
     }

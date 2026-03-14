@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('branch_id')->references('id')->on('branches');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->text('message');
+            $table->text('message')->default('commit message');
             $table->timestamps();
         });
     }

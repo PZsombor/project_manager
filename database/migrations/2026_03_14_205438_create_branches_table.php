@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->default('main');
             $table->unsignedBigInteger('repository_id');
             $table->foreign('repository_id')->references('id')->on('repositories');
             $table->timestamps();
