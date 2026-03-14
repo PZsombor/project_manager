@@ -46,4 +46,22 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    //Database relationships
+    //Repository
+    public function repository()
+    {
+        return $this->hasMany(Repository::class);
+        
+    }
+
+    //Commit
+    public function commit(){
+        return $this->hasMany(Commit::class);
+    }
+
+    //Collaborator
+    public function collaborator(){
+        return $this->hasMany(Collaborator::class);
+    }
 }

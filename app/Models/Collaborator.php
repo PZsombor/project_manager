@@ -10,4 +10,17 @@ class Collaborator extends Model
         'user_id',
         'role',
     ];
+
+    //Database relationships
+    //User
+    public function user()
+    {
+        return $this->hasMany(User::class);
+    }
+
+    //Repository
+    public function repository()
+    {
+        return $this->belongsTo(Repository::class);
+    }
 }

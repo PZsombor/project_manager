@@ -10,4 +10,11 @@ class File extends Model
         'name',
         'path',
     ];
+
+    //Database relationships
+    //Commit
+    public function commit()
+    {
+        return $this->belongsTo(Commit::class);
+    }
 }

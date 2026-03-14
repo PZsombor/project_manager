@@ -12,4 +12,22 @@ class Repository extends Model
         'description',
         'status',
         ];
+
+    //Database relationships
+    //Branche
+    public function branch()
+    {
+        return $this->hasMany(Branch::class);
+    }
+
+    //Collaborator
+    public function collaborator()
+    {
+        return $this->hasMany(Collaborator::class);
+    }
+
+    //User
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }
