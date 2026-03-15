@@ -13,6 +13,7 @@ class CommitsController extends Controller
     public function index()
     {
         $commits = Commit::all();
+
         return response()->json([
             'success' => true,
             'data' => $commits,
@@ -32,16 +33,12 @@ class CommitsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'branch_id' => 'required',
             'user_id' => 'required',
             'message' => 'required',
         ]);
-        $commit = new Commit;
-        $commit->branch_id = $request->branch_id;
-        $commit->user_id = $request->user_id;
-        $commit->message = $request->message;
-        $commit->save();
+        $commit = Commit::create($validated);
 
         return response()->json([
             'success' => true,
@@ -55,6 +52,7 @@ class CommitsController extends Controller
     public function show(string $id)
     {
         $commit = Commit::findOrFail($id);
+
         return response()->json([
             'success' => true,
             'data' => $commit,
@@ -74,16 +72,13 @@ class CommitsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'branch_id' => 'required',
             'user_id' => 'required',
             'message' => 'required',
         ]);
         $commit = Commit::findOrFail($id);
-        $commit->branch_id = $request->branch_id;
-        $commit->user_id = $request->user_id;
-        $commit->message = $request->message;
-        $commit->save();
+        $commit->update($validated);
 
         return response()->json([
             'success' => true,
@@ -97,6 +92,7 @@ class CommitsController extends Controller
     public function destroy(string $id)
     {
         $commit = Commit::delete($id);
+        
         return response()->json([
             'success' => true,
             'data' => $commit,

@@ -13,6 +13,7 @@ class FilesController extends Controller
     public function index()
     {
         $files = File::all();
+        
         return response()->json([
             'success' => true,
             'data' => $files,
@@ -32,16 +33,12 @@ class FilesController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required',
             'commit_id' => 'required',
             'path' => 'required', //lehet ez nem kell
         ]);
-        $file = new File;
-        $file->name = $request->name;
-        $file->commit_id = $request->commit_id;
-        $file->path = $request->path;
-        $file->save();
+        $file = File::create($validated);
 
         return response()->json([
             'success' => true,
@@ -55,6 +52,7 @@ class FilesController extends Controller
     public function show(string $id)
     {
         $file = File::findOrFail($id);
+
         return response()->json([
             'success' => true,
             'data' => $file,
@@ -74,16 +72,13 @@ class FilesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required',
             'commit_id' => 'required',
             'path' => 'required', //lehet ez nem kell
         ]);
-        $file = new File;
-        $file->name = $request->name;
-        $file->commit_id = $request->commit_id;
-        $file->path = $request->path;
-        $file->save();
+        $file = File::findOrFail($id);
+        $file->update($validated);
 
         return response()->json([
             'success' => true,
@@ -97,6 +92,7 @@ class FilesController extends Controller
     public function destroy(string $id)
     {
         $file = File::delete($id);
+
         return response()->json([
             'success' => true,
             'data' => $file,

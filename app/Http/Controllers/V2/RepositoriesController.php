@@ -15,6 +15,7 @@ class RepositoriesController extends Controller
     public function index()
     {
         $repository = Repository::all();
+
         return response()->json([
             'success' => true,
             'data' => $repository,
@@ -42,7 +43,6 @@ class RepositoriesController extends Controller
             'description' => 'required',
             'status' => 'required',
         ]);
-
         $repository = Repository::create($validated);
 
         //Making a branch with the branches() relationship
@@ -65,9 +65,10 @@ class RepositoriesController extends Controller
     public function show(string $id)
     {
         $repository = Repository::findOrFail($id);
+
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $repository->branches()->all(),
         ]);
     }
 
@@ -91,14 +92,8 @@ class RepositoriesController extends Controller
             'description' => 'required',
             'status' => 'required',
         ]);
-
         $repository = Repository::findOrFail($id);
-        $repository->name = $request->name;
-        $repository->category = $request->category;
-        $repository->user_id = $request->user_id;
-        $repository->description = $request->description;
-        $repository->status = $request->status;
-        $repository->save();
+        $repository->update($validated);
 
         return response()->json([
             'success' => true,
@@ -112,6 +107,7 @@ class RepositoriesController extends Controller
     public function destroy(string $id)
     {
         $repository = Repository::delete($id);
+        
         return response()->json([
             'success' => true,
             'data' => $repository,

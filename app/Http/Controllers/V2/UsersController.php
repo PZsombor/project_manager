@@ -13,6 +13,7 @@ class UsersController extends Controller
     public function index()
     {
         $users = User::all();
+
         return response()->json([
             'success' => true,
             'data' => $users,
@@ -32,17 +33,12 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required',
             'email' => 'required',
             'password' => 'required'
         ]);
-
-        $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = $request->password;
-        $user->save();
+        $user = User::create($validated);
 
         return response()->json([
             'success' => true,
@@ -56,6 +52,7 @@ class UsersController extends Controller
     public function show(string $id)
     {
         $user = User::findOrFail($id);
+
         return response()->json([
             'success' => true,
             'data' => $user,
@@ -75,17 +72,13 @@ class UsersController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required',
             'email' => 'required',
             'password' => 'required'
         ]);
-        
         $user = User::findOrFail($id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = $request->password;
-        $user->save();
+        $user->update($validated);
 
         return response()->json([
             'success' => true,
@@ -99,6 +92,7 @@ class UsersController extends Controller
     public function destroy(string $id)
     {
         $user = User::delete($id);
+        
         return response()->json([
             'success' => true,
             'data' => $user,

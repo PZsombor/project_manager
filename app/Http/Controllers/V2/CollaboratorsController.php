@@ -13,6 +13,7 @@ class CollaboratorsController extends Controller
     public function index()
     {
         $collaborators = Collaborator::all();
+
         return response()->json([
             'success' => true,
             'data' => $collaborators,
@@ -32,16 +33,12 @@ class CollaboratorsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'user_id' => 'required',
             'repository_id' => 'required',
             'role' => 'required',
         ]);
-        $collaborator = new Collaborator;
-        $collaborator->user_id = $request->user_id;
-        $collaborator->repository_id = $request->repository_id;
-        $collaborator->role = $request->role;
-        $collaborator->save();
+        $collaborator = Collaborator::create($validated);
 
         return response()->json([
             'success' => true,
@@ -55,6 +52,7 @@ class CollaboratorsController extends Controller
     public function show(string $id)
     {
         $collaborator = Collaborator::findOrFail($id);
+
         return response()->json([
             'success' => true,
             'data' => $collaborator,
@@ -74,16 +72,13 @@ class CollaboratorsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'user_id' => 'required',
             'repository_id' => 'required',
             'role' => 'required',
         ]);
         $collaborator = Collaborator::findOrFail($id);
-        $collaborator->user_id = $request->user_id;
-        $collaborator->repository_id = $request->repository_id;
-        $collaborator->role = $request->role;
-        $collaborator->save();
+        $collaborator->update($validated);
 
         return response()->json([
             'success' => true,
@@ -97,6 +92,7 @@ class CollaboratorsController extends Controller
     public function destroy(string $id)
     {
         $collaborator = Collaborator::delete($id);
+        
         return response()->json([
             'success' => true,
             'data' => $collaborator,

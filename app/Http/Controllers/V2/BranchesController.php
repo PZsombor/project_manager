@@ -13,6 +13,7 @@ class BranchesController extends Controller
     public function index()
     {
         $branches = Branch::all();
+
         return response()->json([
             'success' => true,
             'data' => $branches,
@@ -32,14 +33,11 @@ class BranchesController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required',
             'repository_id' => 'required',
         ]);
-        $branch = Branch::all();
-        $branch->name = $request->name;
-        $branch->repository_id = $request->repository_id;
-        $branch->save();
+        $branch = Branch::create($validated);
 
         return response()->json([
             'success' => true,
@@ -53,6 +51,7 @@ class BranchesController extends Controller
     public function show(string $id)
     {
         $branch = Branch::findOrFail($id);
+
         return response()->json([
             'success' => true,
             'data' => $branch,
@@ -72,14 +71,12 @@ class BranchesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required',
             'repository_id' => 'required',
         ]);
         $branch = Branch::findOrFail($id);
-        $branch->name = $request->name;
-        $branch->repository_id = $request->repository_id;
-        $branch->save();
+        $branch->update($validated);
 
         return response()->json([
             'success' => true,
@@ -93,6 +90,7 @@ class BranchesController extends Controller
     public function destroy(string $id)
     {
         $branch = Branch::delete($id);
+        
         return response()->json([
             'success' => true,
             'data' => $branch,
