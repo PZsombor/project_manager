@@ -1,4 +1,6 @@
-php artisan route:cache
+//
+laravel
+//
 
 composer i
 copy .env.example .env
@@ -9,4 +11,12 @@ php artisan install:api
 php artisan make:model Post -mcr
 php artisan migrate:rollback --path=database/
 php artisan migrate:fresh --seed
+php artisan route:cache
 
+//
+git
+//
+
+git add .
+git commit -m ""
+git push -u origin main

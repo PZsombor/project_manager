@@ -12,7 +12,11 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return User::all();
+        $users = User::all();
+        return response()->json([
+            'success' => true,
+            'data' => $users,
+        ]);
     }
 
     /**
@@ -20,7 +24,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return User::create();
+        
     }
 
     /**
@@ -28,7 +32,22 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $user,
+        ]);
     }
 
     /**
@@ -36,7 +55,11 @@ class UsersController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        return response()->json([
+            'success' => true,
+            'data' => $user,
+        ]);
     }
 
     /**
@@ -52,7 +75,22 @@ class UsersController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+        
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $user,
+        ]);
     }
 
     /**
@@ -60,6 +98,10 @@ class UsersController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::destroy($id);
+        return response()->json([
+            'success' => true,
+            'data' => $user + 'deleted',
+        ]);
     }
 }
