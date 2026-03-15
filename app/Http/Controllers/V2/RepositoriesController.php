@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Repository;
+use App\Models\Branch;
 use Illuminate\Http\Request;
 
 class RepositoriesController extends Controller
@@ -13,7 +14,6 @@ class RepositoriesController extends Controller
     public function index()
     {
         $repository = Repository::all();
-        
         return response()->json([
             'success' => true,
             'data' => $repository,
@@ -36,12 +36,14 @@ class RepositoriesController extends Controller
         $request->validate([
             'name' => 'required',
             'category' => 'required',
+            'user_id' => 'required',
             'description' => 'required',
             'status' => 'required',
         ]);
         $repository = new Repository;
         $repository->name = $request->name;
         $repository->category = $request->category;
+        $repository->user_id = $request->user_id;
         $repository->description = $request->description;
         $repository->status = $request->status;
         $repository->save();
@@ -80,12 +82,14 @@ class RepositoriesController extends Controller
         $request->validate([
             'name' => 'required',
             'category' => 'required',
+            'user_id' => 'required',
             'description' => 'required',
             'status' => 'required',
         ]);
         $repository = Repository::findOrFail($id);
         $repository->name = $request->name;
         $repository->category = $request->category;
+        $repository->user_id = $request->user_id;
         $repository->description = $request->description;
         $repository->status = $request->status;
         $repository->save();

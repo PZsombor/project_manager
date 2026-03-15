@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Repository;
+use App\Models\Branch;
 use Illuminate\Http\Request;
 
-class RepositoriesController extends Controller
+class BranchesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $repository = Repository::all();
-        
+        $branches = Branch::all();
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $branches,
         ]);
     }
 
@@ -35,20 +34,16 @@ class RepositoriesController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'category' => 'required',
-            'description' => 'required',
-            'status' => 'required',
+            'repository_id' => 'required',
         ]);
-        $repository = new Repository;
-        $repository->name = $request->name;
-        $repository->category = $request->category;
-        $repository->description = $request->description;
-        $repository->status = $request->status;
-        $repository->save();
+        $branch = Branch::all();
+        $branch->name = $request->name;
+        $branch->repository_id = $request->repository_id;
+        $branch->save();
 
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $branch,
         ]);
     }
 
@@ -57,17 +52,17 @@ class RepositoriesController extends Controller
      */
     public function show(string $id)
     {
-        $repository = Repository::findOrFail($id);
+        $branch = Branch::findOrFail($id);
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $branch,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Repository $repository)
+    public function edit(Branch $branch)
     {
         //
     }
@@ -79,20 +74,16 @@ class RepositoriesController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'category' => 'required',
-            'description' => 'required',
-            'status' => 'required',
+            'repository_id' => 'required',
         ]);
-        $repository = Repository::findOrFail($id);
-        $repository->name = $request->name;
-        $repository->category = $request->category;
-        $repository->description = $request->description;
-        $repository->status = $request->status;
-        $repository->save();
+        $branch = Branch::findOrFail($id);
+        $branch->name = $request->name;
+        $branch->repository_id = $request->repository_id;
+        $branch->save();
 
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $branch,
         ]);
     }
 
@@ -101,10 +92,10 @@ class RepositoriesController extends Controller
      */
     public function destroy(string $id)
     {
-        $repository = Repository::delete($id);
+        $branch = Branch::delete($id);
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $branch,
         ]);
     }
 }

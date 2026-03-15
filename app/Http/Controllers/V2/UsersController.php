@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Repository;
 use Illuminate\Http\Request;
+use App\Models\User;
 
-class RepositoriesController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $repository = Repository::all();
-        
+        $users = User::all();
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $users,
         ]);
     }
 
@@ -25,7 +24,7 @@ class RepositoriesController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -35,20 +34,19 @@ class RepositoriesController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'category' => 'required',
-            'description' => 'required',
-            'status' => 'required',
+            'email' => 'required',
+            'password' => 'required'
         ]);
-        $repository = new Repository;
-        $repository->name = $request->name;
-        $repository->category = $request->category;
-        $repository->description = $request->description;
-        $repository->status = $request->status;
-        $repository->save();
+
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->save();
 
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $user,
         ]);
     }
 
@@ -57,17 +55,17 @@ class RepositoriesController extends Controller
      */
     public function show(string $id)
     {
-        $repository = Repository::findOrFail($id);
+        $user = User::findOrFail($id);
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $user,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Repository $repository)
+    public function edit(string $id)
     {
         //
     }
@@ -79,20 +77,19 @@ class RepositoriesController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'category' => 'required',
-            'description' => 'required',
-            'status' => 'required',
+            'email' => 'required',
+            'password' => 'required'
         ]);
-        $repository = Repository::findOrFail($id);
-        $repository->name = $request->name;
-        $repository->category = $request->category;
-        $repository->description = $request->description;
-        $repository->status = $request->status;
-        $repository->save();
+        
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->save();
 
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $user,
         ]);
     }
 
@@ -101,10 +98,10 @@ class RepositoriesController extends Controller
      */
     public function destroy(string $id)
     {
-        $repository = Repository::delete($id);
+        $user = User::delete($id);
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $user,
         ]);
     }
 }

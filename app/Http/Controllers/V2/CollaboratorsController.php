@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Repository;
+use App\Models\Collaborator;
 use Illuminate\Http\Request;
 
-class RepositoriesController extends Controller
+class CollaboratorsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $repository = Repository::all();
-        
+        $collaborators = Collaborator::all();
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $collaborators,
         ]);
     }
 
@@ -34,21 +33,19 @@ class RepositoriesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'category' => 'required',
-            'description' => 'required',
-            'status' => 'required',
+            'user_id' => 'required',
+            'repository_id' => 'required',
+            'role' => 'required',
         ]);
-        $repository = new Repository;
-        $repository->name = $request->name;
-        $repository->category = $request->category;
-        $repository->description = $request->description;
-        $repository->status = $request->status;
-        $repository->save();
+        $collaborator = new Collaborator;
+        $collaborator->user_id = $request->user_id;
+        $collaborator->repository_id = $request->repository_id;
+        $collaborator->role = $request->role;
+        $collaborator->save();
 
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $collaborator,
         ]);
     }
 
@@ -57,17 +54,17 @@ class RepositoriesController extends Controller
      */
     public function show(string $id)
     {
-        $repository = Repository::findOrFail($id);
+        $collaborator = Collaborator::findOrFail($id);
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $collaborator,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Repository $repository)
+    public function edit(Collaborator $collaborator)
     {
         //
     }
@@ -78,21 +75,19 @@ class RepositoriesController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required',
-            'category' => 'required',
-            'description' => 'required',
-            'status' => 'required',
+            'user_id' => 'required',
+            'repository_id' => 'required',
+            'role' => 'required',
         ]);
-        $repository = Repository::findOrFail($id);
-        $repository->name = $request->name;
-        $repository->category = $request->category;
-        $repository->description = $request->description;
-        $repository->status = $request->status;
-        $repository->save();
+        $collaborator = Collaborator::findOrFail($id);
+        $collaborator->user_id = $request->user_id;
+        $collaborator->repository_id = $request->repository_id;
+        $collaborator->role = $request->role;
+        $collaborator->save();
 
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $collaborator,
         ]);
     }
 
@@ -101,10 +96,10 @@ class RepositoriesController extends Controller
      */
     public function destroy(string $id)
     {
-        $repository = Repository::delete($id);
+        $collaborator = Collaborator::delete($id);
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $collaborator,
         ]);
     }
 }

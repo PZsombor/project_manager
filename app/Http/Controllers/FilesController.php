@@ -92,7 +92,7 @@ class FilesController extends Controller
      */
     public function destroy(string $id)
     {
-        $file = File::findOrFail($id);
+        $file = File::delete($id);
         return response()->json([
             'success' => true,
             'data' => $file,

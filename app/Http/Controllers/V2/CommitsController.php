@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Repository;
+use App\Models\Commit;
 use Illuminate\Http\Request;
 
-class RepositoriesController extends Controller
+class CommitsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $repository = Repository::all();
-        
+        $commits = Commit::all();
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $commits,
         ]);
     }
 
@@ -34,21 +33,19 @@ class RepositoriesController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'category' => 'required',
-            'description' => 'required',
-            'status' => 'required',
+            'branch_id' => 'required',
+            'user_id' => 'required',
+            'message' => 'required',
         ]);
-        $repository = new Repository;
-        $repository->name = $request->name;
-        $repository->category = $request->category;
-        $repository->description = $request->description;
-        $repository->status = $request->status;
-        $repository->save();
+        $commit = new Commit;
+        $commit->branch_id = $request->branch_id;
+        $commit->user_id = $request->user_id;
+        $commit->message = $request->message;
+        $commit->save();
 
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $commit,
         ]);
     }
 
@@ -57,17 +54,17 @@ class RepositoriesController extends Controller
      */
     public function show(string $id)
     {
-        $repository = Repository::findOrFail($id);
+        $commit = Commit::findOrFail($id);
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $commit,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Repository $repository)
+    public function edit(Commit $commit)
     {
         //
     }
@@ -78,21 +75,19 @@ class RepositoriesController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required',
-            'category' => 'required',
-            'description' => 'required',
-            'status' => 'required',
+            'branch_id' => 'required',
+            'user_id' => 'required',
+            'message' => 'required',
         ]);
-        $repository = Repository::findOrFail($id);
-        $repository->name = $request->name;
-        $repository->category = $request->category;
-        $repository->description = $request->description;
-        $repository->status = $request->status;
-        $repository->save();
+        $commit = Commit::findOrFail($id);
+        $commit->branch_id = $request->branch_id;
+        $commit->user_id = $request->user_id;
+        $commit->message = $request->message;
+        $commit->save();
 
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $commit,
         ]);
     }
 
@@ -101,10 +96,10 @@ class RepositoriesController extends Controller
      */
     public function destroy(string $id)
     {
-        $repository = Repository::delete($id);
+        $commit = Commit::delete($id);
         return response()->json([
             'success' => true,
-            'data' => $repository,
+            'data' => $commit,
         ]);
     }
 }
