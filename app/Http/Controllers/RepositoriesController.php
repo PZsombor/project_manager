@@ -12,7 +12,11 @@ class RepositoriesController extends Controller
      */
     public function index()
     {
-        //
+        $repository = Repository::all();
+        return response()->json([
+            'success' => true,
+            'data' => $repository,
+        ]);
     }
 
     /**
@@ -28,15 +32,35 @@ class RepositoriesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'category' => 'required',
+            'description' => 'required',
+            'status' => 'required',
+        ]);
+        $repository = new Repository;
+        $repository->name = $request->name;
+        $repository->category = $request->category;
+        $repository->description = $request->description;
+        $repository->status = $request->status;
+        $repository->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $repository,
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Repository $repository)
+    public function show(string $id)
     {
-        //
+        $repository = Repository::findOrFail($id);
+        return response()->json([
+            'success' => true,
+            'data' => $repository,
+        ]);
     }
 
     /**
@@ -50,16 +74,36 @@ class RepositoriesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Repository $repository)
+    public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'category' => 'required',
+            'description' => 'required',
+            'status' => 'required',
+        ]);
+        $repository = Repository::findOrFail($id);
+        $repository->name = $request->name;
+        $repository->category = $request->category;
+        $repository->description = $request->description;
+        $repository->status = $request->status;
+        $repository->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $repository,
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Repository $repository)
+    public function destroy(string $id)
     {
-        //
+        $repository = Repository::delete($id);
+        return response()->json([
+            'success' => true,
+            'data' => $repository,
+        ]);
     }
 }

@@ -12,7 +12,11 @@ class BranchesController extends Controller
      */
     public function index()
     {
-        //
+        $branches = Branch::all();
+        return response()->json([
+            'success' => true,
+            'data' => $branches,
+        ]);
     }
 
     /**
@@ -28,15 +32,29 @@ class BranchesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+        ]);
+        $branch = Branch::all();
+        $branch->name = $request->name;
+        $branch->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $branch,
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Branch $branch)
+    public function show(string $id)
     {
-        //
+        $branch = Branch::findOrFail($id);
+        return response()->json([
+            'success' => true,
+            'data' => $branch,
+        ]);
     }
 
     /**
@@ -50,16 +68,30 @@ class BranchesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Branch $branch)
+    public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+        ]);
+        $branch = Branch::findOrFail($id);
+        $branch->name = $request->name;
+        $branch->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $branch,
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Branch $branch)
+    public function destroy(string $id)
     {
-        //
+        $branch = Branch::delete($id);
+        return response()->json([
+            'success' => true,
+            'data' => $branch,
+        ]);
     }
 }

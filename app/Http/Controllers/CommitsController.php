@@ -12,7 +12,11 @@ class CommitsController extends Controller
      */
     public function index()
     {
-        //
+        $commits = Commit::all();
+        return response()->json([
+            'success' => true,
+            'data' => $commits,
+        ]);
     }
 
     /**
@@ -28,15 +32,29 @@ class CommitsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'message' => 'required',
+        ]);
+        $commit = new Commit;
+        $commit->message = $request->message;
+        $commit->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $commit,
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Commit $commit)
+    public function show(string $id)
     {
-        //
+        $commit = Commit::findOrFail($id);
+        return response()->json([
+            'success' => true,
+            'data' => $commit,
+        ]);
     }
 
     /**
@@ -50,16 +68,30 @@ class CommitsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Commit $commit)
+    public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'message' => 'required',
+        ]);
+        $commit = Commit::findOrFail($id);
+        $commit->message = $request->message;
+        $commit->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $commit,
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Commit $commit)
+    public function destroy(string $id)
     {
-        //
+        $commit = Commit::delete($id);
+        return response()->json([
+            'success' => true,
+            'data' => $commit,
+        ]);
     }
 }

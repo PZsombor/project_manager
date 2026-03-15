@@ -12,7 +12,11 @@ class FilesController extends Controller
      */
     public function index()
     {
-        //
+        $files = File::all();
+        return response()->json([
+            'success' => true,
+            'data' => $files,
+        ]);
     }
 
     /**
@@ -28,15 +32,31 @@ class FilesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'path' => 'required', //lehet ez nem kell
+        ]);
+        $file = new File;
+        $file->name = $request->name;
+        $file->path = $request->path;
+        $file->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $file,
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(File $file)
+    public function show(string $id)
     {
-        //
+        $file = File::findOrFail($id);
+        return response()->json([
+            'success' => true,
+            'data' => $file,
+        ]);
     }
 
     /**
@@ -50,16 +70,32 @@ class FilesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, File $file)
+    public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'path' => 'required', //lehet ez nem kell
+        ]);
+        $file = new File;
+        $file->name = $request->name;
+        $file->path = $request->path;
+        $file->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $file,
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(File $file)
+    public function destroy(string $id)
     {
-        //
+        $file = File::findOrFail($id);
+        return response()->json([
+            'success' => true,
+            'data' => $file,
+        ]);
     }
 }

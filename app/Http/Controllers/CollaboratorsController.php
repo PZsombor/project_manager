@@ -12,7 +12,11 @@ class CollaboratorsController extends Controller
      */
     public function index()
     {
-        //
+        $collaborators = Collaborator::all();
+        return response()->json([
+            'success' => true,
+            'data' => $collaborators,
+        ]);
     }
 
     /**
@@ -28,15 +32,29 @@ class CollaboratorsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'role' => 'required'
+        ]);
+        $collaborator = new Collaborator;
+        $collaborator->role = $request->role;
+        $collaborator->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $collaborator,
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Collaborator $collaborator)
+    public function show(string $id)
     {
-        //
+        $collaborator = Collaborator::findOrFail($id);
+        return response()->json([
+            'success' => true,
+            'data' => $collaborator,
+        ]);
     }
 
     /**
@@ -50,16 +68,30 @@ class CollaboratorsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Collaborator $collaborator)
+    public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'role' => 'required'
+        ]);
+        $collaborator = Collaborator::findOrFail($id);
+        $collaborator->role = $request->role;
+        $collaborator->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $collaborator,
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Collaborator $collaborator)
+    public function destroy(string $id)
     {
-        //
+        $collaborator = Collaborator::delete($id);
+        return response()->json([
+            'success' => true,
+            'data' => $collaborator,
+        ]);
     }
 }

@@ -98,10 +98,10 @@ class UsersController extends Controller
      */
     public function destroy(string $id)
     {
-        $user = User::destroy($id);
+        $user = User::delete($id);
         return response()->json([
             'success' => true,
-            'data' => $user + 'deleted',
+            'data' => $user,
         ]);
     }
 }
