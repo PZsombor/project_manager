@@ -4,9 +4,35 @@ namespace App\Http\Controllers\V2;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class AuthController extends Controller
 {
+    public function signup(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'name' => 'required',
+            'password' => 'required',
+        ]);
+
+        $user = User::create([
+            'email' => $request->email,
+            'name' => $request->name,
+            'password' => Hash::make($request->password),
+        ]);
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Successful registration',
+            'token' => $token,
+            'user' => $user,
+        ]);
+    }
+
     public function login(Request $request)
     {
         $credentials = $request->validate([

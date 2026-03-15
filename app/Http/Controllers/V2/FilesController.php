@@ -13,7 +13,7 @@ class FilesController extends Controller
     public function index()
     {
         $files = File::all();
-        
+
         return response()->json([
             'success' => true,
             'data' => $files,
