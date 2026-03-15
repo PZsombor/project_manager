@@ -1,0 +1,12 @@
+php artisan route:cache
+
+composer i
+copy .env.example .env
+php artisan key:generate
+
+laravel new project_nev
+php artisan install:api
+php artisan make:model Post -mcr
+php artisan migrate:rollback --path=database/
+php artisan migrate:fresh --seed
+
