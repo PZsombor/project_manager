@@ -1,25 +1,31 @@
 <?php
 
 use Illuminate\Http\Request;
+/*
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BranchesController;
 use App\Http\Controllers\CommitsController;
 use App\Http\Controllers\FilesController;
-//use App\Http\Controllers\RepositoriesController;
-use App\Http\Controllers\UsersController;
-
+use App\Http\Controllers\RepositoriesController;
+use App\Http\Controllers\UsersController; 
+*/
 
 //  V2
-//  use App\Http\Controllers\V2\BranchesController;
-//  use App\Http\Controllers\V2\CommitsController;
-//  use App\Http\Controllers\V2\FilesController;
-  use App\Http\Controllers\V2\RepositoriesController;
-//  use App\Http\Controllers\V2\UsersController;
-
+ use App\Http\Controllers\V2\AuthController;
+ use App\Http\Controllers\V2\CollaboratorsController;
+ use App\Http\Controllers\V2\BranchesController;
+ use App\Http\Controllers\V2\CommitsController;
+ use App\Http\Controllers\V2\FilesController;
+ use App\Http\Controllers\V2\RepositoriesController;
+ use App\Http\Controllers\V2\UsersController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
+
+//login-logout
+Route::post('/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
 //users
 Route::get('users', [UsersController::class, 'index']);
@@ -56,6 +62,13 @@ Route::post('commits', [CommitsController::class, 'store']);
 Route::get('commits/{id}', [CommitsController::class, 'show']);
 Route::put('commits/{id}', [CommitsController::class, 'update']);
 Route::delete('commits/{id}', [CommitsController::class, 'destroy']);
+
+//collaborators
+Route::get('collaborators', [CollaboratorsController::class, 'index']);
+Route::post('collaborators', [CollaboratorsController::class, 'store']);
+Route::get('collaborators/{id}', [CollaboratorsController::class, 'show']);
+Route::put('collaborators/{id}', [CollaboratorsController::class, 'update']);
+Route::delete('collaborators/{id}', [CollaboratorsController::class, 'destroy']);
 
 //files
 Route::get('files', [FilesController::class, 'index']);
