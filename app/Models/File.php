@@ -8,6 +8,7 @@ class File extends Model
 {
     protected $fillable = [
         'name',
+        'commit_id',
         'path',
     ];
 

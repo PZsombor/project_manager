@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V2;
 
 use App\Models\Repository;
 use App\Models\Branch;
+use App\Http\Controllers\V2\BranchesController;
 use Illuminate\Http\Request;
 
 class RepositoriesController extends Controller
@@ -33,24 +34,28 @@ class RepositoriesController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        //Validating repo data and making a model
+        $validated = $request->validate([
             'name' => 'required',
             'category' => 'required',
             'user_id' => 'required',
             'description' => 'required',
             'status' => 'required',
         ]);
-        $repository = new Repository;
-        $repository->name = $request->name;
-        $repository->category = $request->category;
-        $repository->user_id = $request->user_id;
-        $repository->description = $request->description;
-        $repository->status = $request->status;
-        $repository->save();
 
+        $repository = Repository::create($validated);
+
+        //Making a branch with the branches() relationship
+        $branch = $repository->branches()->create([
+            'name' => 'main',
+        ]);
+        
         return response()->json([
-            'success' => true,
-            'data' => $repository,
+        'success' => true,
+        'data' => [
+            'repository' => $repository,
+            'branch' => $branch,
+            ]
         ]);
     }
 
@@ -79,13 +84,14 @@ class RepositoriesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required',
             'category' => 'required',
             'user_id' => 'required',
             'description' => 'required',
             'status' => 'required',
         ]);
+
         $repository = Repository::findOrFail($id);
         $repository->name = $request->name;
         $repository->category = $request->category;

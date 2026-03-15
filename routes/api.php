@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BranchesController;
 use App\Http\Controllers\CommitsController;
 use App\Http\Controllers\FilesController;
-use App\Http\Controllers\RepositoriesController;
+//use App\Http\Controllers\RepositoriesController;
 use App\Http\Controllers\UsersController;
 
 
@@ -13,7 +13,7 @@ use App\Http\Controllers\UsersController;
 //  use App\Http\Controllers\V2\BranchesController;
 //  use App\Http\Controllers\V2\CommitsController;
 //  use App\Http\Controllers\V2\FilesController;
-//  use App\Http\Controllers\V2\RepositoriesController;
+  use App\Http\Controllers\V2\RepositoriesController;
 //  use App\Http\Controllers\V2\UsersController;
 
 
@@ -29,6 +29,14 @@ Route::put('users/{id}', [UsersController::class, 'update']);
 Route::delete('users/{id}', [UsersController::class, 'destroy']);
 
 //repositories
+Route::get('repositories', [RepositoriesController::class, 'index']);
+Route::get('repositories', [RepositoriesController::class, 'index']);
+Route::post('repositories', [RepositoriesController::class, 'store']);
+Route::get('repositories/{id}', [RepositoriesController::class, 'show']);
+Route::put('repositories/{id}', [RepositoriesController::class, 'update']);
+Route::delete('repositories/{id}', [RepositoriesController::class, 'destroy']);
+//v2
+Route::get('v2/repositories', [RepositoriesController::class, 'index']);
 Route::get('repositories', [RepositoriesController::class, 'index']);
 Route::post('repositories', [RepositoriesController::class, 'store']);
 Route::get('repositories/{id}', [RepositoriesController::class, 'show']);

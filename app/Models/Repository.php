@@ -9,19 +9,20 @@ class Repository extends Model
     protected $fillable = [
         'name',
         'category',
+        'user_id',
         'description',
         'status',
         ];
 
     //Database relationships
     //Branche
-    public function branch()
+    public function branches()
     {
         return $this->hasMany(Branch::class);
     }
 
     //Collaborator
-    public function collaborator()
+    public function collaborators()
     {
         return $this->hasMany(Collaborator::class);
     }

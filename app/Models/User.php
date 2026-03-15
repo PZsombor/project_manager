@@ -34,7 +34,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'is_admin'
+        'is_admin',
     ];
 
     /**
@@ -52,19 +52,19 @@ class User extends Authenticatable
 
     //Database relationships
     //Repository
-    public function repository()
+    public function repositories()
     {
         return $this->hasMany(Repository::class);
         
     }
 
     //Commit
-    public function commit(){
+    public function commits(){
         return $this->hasMany(Commit::class);
     }
 
     //Collaborator
-    public function collaborator(){
+    public function collaborators(){
         return $this->hasMany(Collaborator::class);
     }
 }

@@ -8,12 +8,13 @@ class Collaborator extends Model
 {
     protected $fillable = [
         'user_id',
+        'repository_id',
         'role',
     ];
 
     //Database relationships
     //User
-    public function user()
+    public function users()
     {
         return $this->hasMany(User::class);
     }

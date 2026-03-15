@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Commit extends Model
 {
     protected $fillable = [
+        'branch_id',
+        'user_id',
         'messages',
     ];
 
     //Database relationships
     //File
-    public function file()
+    public function files()
     {
         return $this->hasMany(File::class);
     }

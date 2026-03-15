@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V2;
 
 use App\Models\Commit;
 use Illuminate\Http\Request;

@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Branch extends Model
 {
     protected $fillable = [
-        'name',
+        'name', 
+        'repository_id',
     ];
 
     //Database relationships
     //Commit
-    public function commit()
+    public function commits()
     {
         return $this->hasMany(Commit::class);
     }

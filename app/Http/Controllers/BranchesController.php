@@ -34,9 +34,11 @@ class BranchesController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'repository_id' => 'required|exists:repositories,id',
         ]);
-        $branch = Branch::all();
+        $branch = new Branch();
         $branch->name = $request->name;
+        $branch->repository_id = $request->repository_id;
         $branch->save();
 
         return response()->json([
