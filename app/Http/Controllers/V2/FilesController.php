@@ -9,6 +9,18 @@ use Illuminate\Http\Request;
 
 class FilesController extends Controller
 {
+    public function files(Commit $commit)
+    {
+        $files = $commit->files()->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'files' => $files,
+            ],
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -37,7 +49,7 @@ class FilesController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
-            'path' => 'required', //lehet ez nem kell
+            'path' => 'required',
             'message' => 'nullable'
         ]);
          $commit = Commit::create([
@@ -47,6 +59,7 @@ class FilesController extends Controller
         $file = $commit->files()->create([
             'name' => $validated['name'],
             'path' => $validated['path'],
+            
         ]);
 
        
@@ -88,7 +101,7 @@ class FilesController extends Controller
         $validated = $request->validate([
             'name' => 'required',
             'commit_id' => 'required',
-            'path' => 'required', //lehet ez nem kell
+            'path' => 'required',
         ]);
         $file = File::findOrFail($id);
         $file->update($validated);

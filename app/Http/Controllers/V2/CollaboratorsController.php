@@ -3,10 +3,23 @@
 namespace App\Http\Controllers\V2;
 
 use App\Models\Collaborator;
+use App\Models\Repository;
 use Illuminate\Http\Request;
 
 class CollaboratorsController extends Controller
 {
+    public function collaborators(Repository $repository)
+    {
+        $collaborators = $repository->collaborators()->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'collaborators' => $collaborators,
+            ],
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */

@@ -9,6 +9,18 @@ use Illuminate\Http\Request;
 
 class RepositoriesController extends Controller
 {
+    public function repositories()
+    {
+        $repositories = Auth()->user()->repositories()->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'repositories' => $repositories,
+            ],
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -38,12 +50,12 @@ class RepositoriesController extends Controller
         //Validating repo data and making a model
         $validated = $request->validate([
             'name' => 'required',
-            'category' => 'required',
             'user_id' => 'required',
-            'description' => 'required',
             'status' => 'required',
         ]);
-        $repository = Repository::create($validated);
+        $repository = new Repository();
+        $repository->name = $validated['name'];
+        $repository = $validated['category'];
 
         //Making a branch with the branches() relationship
         $branch = $repository->branches()->create([
@@ -89,7 +101,6 @@ class RepositoriesController extends Controller
             'name' => 'required',
             'category' => 'required',
             'user_id' => 'required',
-            'description' => 'required',
             'status' => 'required',
         ]);
         $repository = Repository::findOrFail($id);
@@ -107,7 +118,7 @@ class RepositoriesController extends Controller
     public function destroy(string $id)
     {
         $repository = Repository::delete($id);
-        
+
         return response()->json([
             'success' => true,
             'data' => $repository,

@@ -3,10 +3,22 @@
 namespace App\Http\Controllers\V2;
 
 use App\Models\Branch;
+use App\Models\Repository;
 use Illuminate\Http\Request;
 
 class BranchesController extends Controller
 {
+    public function branches(Repository $repository)
+    {
+        $branches = $repository->branches()->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'branches' => $branches,
+            ],
+        ]);
+    }
     /**
      * Display a listing of the resource.
      */

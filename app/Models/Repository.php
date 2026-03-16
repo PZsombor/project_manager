@@ -8,7 +8,6 @@ class Repository extends Model
 {
     protected $fillable = [
         'name',
-        'category',
         'user_id',
         'description',
         'status',

@@ -3,10 +3,23 @@
 namespace App\Http\Controllers\V2;
 
 use App\Models\Commit;
+use App\Models\Branch;
 use Illuminate\Http\Request;
 
 class CommitsController extends Controller
 {
+    public function commits(Branch $branch)
+    {
+        $commits = $branch->commits()->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'commits' => $commits,
+            ],
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */

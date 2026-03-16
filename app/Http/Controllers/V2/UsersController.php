@@ -7,6 +7,21 @@ use App\Models\User;
 
 class UsersController extends Controller
 {
+    //profile test
+    public function profile()
+    {
+        $user = Auth()->user();
+        $repositories = $user->repositories()->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'user' => $user,
+                'repositories' => $repositories,
+            ],
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */
