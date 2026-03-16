@@ -50,6 +50,14 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    //is_admin check
+    public function isAdmin(): bool 
+    {
+        $is_admin = $this->is_admin;
+        
+        return $is_admin;
+    }
+
     //Database relationships
     //Repository
     public function repositories()
@@ -59,12 +67,14 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     //Commit
-    public function commits(){
+    public function commits()
+    {
         return $this->hasMany(Commit::class);
     }
 
     //Collaborator
-    public function collaborators(){
+    public function collaborators()
+    {
         return $this->hasMany(Collaborator::class);
     }
 }

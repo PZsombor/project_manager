@@ -1,15 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-/*
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BranchesController;
-use App\Http\Controllers\CommitsController;
-use App\Http\Controllers\FilesController;
-use App\Http\Controllers\RepositoriesController;
-use App\Http\Controllers\UsersController; 
-*/
-
 //  V2
  use App\Http\Controllers\V2\AuthController;
  use App\Http\Controllers\V2\CollaboratorsController;

@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
-use App\Models\Commit;
+use App\Models\Branch;
 use Illuminate\Http\Request;
 
-class CommitsController extends Controller
+class BranchesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $commits = Commit::all();
+        $branches = Branch::all();
         return response()->json([
             'success' => true,
-            'data' => $commits,
+            'data' => $branches,
         ]);
     }
 
@@ -33,15 +33,17 @@ class CommitsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'message' => 'required',
+            'name' => 'required',
+            'repository_id' => 'required|exists:repositories,id',
         ]);
-        $commit = new Commit;
-        $commit->message = $request->message;
-        $commit->save();
+        $branch = new Branch();
+        $branch->name = $request->name;
+        $branch->repository_id = $request->repository_id;
+        $branch->save();
 
         return response()->json([
             'success' => true,
-            'data' => $commit,
+            'data' => $branch,
         ]);
     }
 
@@ -50,17 +52,17 @@ class CommitsController extends Controller
      */
     public function show(string $id)
     {
-        $commit = Commit::findOrFail($id);
+        $branch = Branch::findOrFail($id);
         return response()->json([
             'success' => true,
-            'data' => $commit,
+            'data' => $branch,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Commit $commit)
+    public function edit(Branch $branch)
     {
         //
     }
@@ -71,15 +73,15 @@ class CommitsController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'message' => 'required',
+            'name' => 'required',
         ]);
-        $commit = Commit::findOrFail($id);
-        $commit->message = $request->message;
-        $commit->save();
+        $branch = Branch::findOrFail($id);
+        $branch->name = $request->name;
+        $branch->save();
 
         return response()->json([
             'success' => true,
-            'data' => $commit,
+            'data' => $branch,
         ]);
     }
 
@@ -88,10 +90,10 @@ class CommitsController extends Controller
      */
     public function destroy(string $id)
     {
-        $commit = Commit::delete($id);
+        $branch = Branch::delete($id);
         return response()->json([
             'success' => true,
-            'data' => $commit,
+            'data' => $branch,
         ]);
     }
 }

@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\V1;
 
-use App\Models\Collaborator;
 use Illuminate\Http\Request;
+use App\Models\User;
 
-class CollaboratorsController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $collaborators = Collaborator::all();
+        $users = User::all();
         return response()->json([
             'success' => true,
-            'data' => $collaborators,
+            'data' => $users,
         ]);
     }
 
@@ -24,7 +24,7 @@ class CollaboratorsController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -33,15 +33,20 @@ class CollaboratorsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'role' => 'required'
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required'
         ]);
-        $collaborator = new Collaborator;
-        $collaborator->role = $request->role;
-        $collaborator->save();
+
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->save();
 
         return response()->json([
             'success' => true,
-            'data' => $collaborator,
+            'data' => $user,
         ]);
     }
 
@@ -50,17 +55,17 @@ class CollaboratorsController extends Controller
      */
     public function show(string $id)
     {
-        $collaborator = Collaborator::findOrFail($id);
+        $user = User::findOrFail($id);
         return response()->json([
             'success' => true,
-            'data' => $collaborator,
+            'data' => $user,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Collaborator $collaborator)
+    public function edit(string $id)
     {
         //
     }
@@ -71,15 +76,20 @@ class CollaboratorsController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'role' => 'required'
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required'
         ]);
-        $collaborator = Collaborator::findOrFail($id);
-        $collaborator->role = $request->role;
-        $collaborator->save();
+        
+        $user = User::findOrFail($id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;
+        $user->save();
 
         return response()->json([
             'success' => true,
-            'data' => $collaborator,
+            'data' => $user,
         ]);
     }
 
@@ -88,10 +98,10 @@ class CollaboratorsController extends Controller
      */
     public function destroy(string $id)
     {
-        $collaborator = Collaborator::delete($id);
+        $user = User::delete($id);
         return response()->json([
             'success' => true,
-            'data' => $collaborator,
+            'data' => $user,
         ]);
     }
 }

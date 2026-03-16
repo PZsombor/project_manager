@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\V2;
 
+use App\Models\Commit;
 use App\Models\File;
+use Auth;
 use Illuminate\Http\Request;
 
 class FilesController extends Controller
@@ -35,14 +37,25 @@ class FilesController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
-            'commit_id' => 'required',
             'path' => 'required', //lehet ez nem kell
+            'message' => 'nullable'
         ]);
-        $file = File::create($validated);
+         $commit = Commit::create([
+            'user_id' => Auth()->id(),
+            'message' => $validated['message'],
+        ]);
+        $file = $commit->files()->create([
+            'name' => $validated['name'],
+            'path' => $validated['path'],
+        ]);
 
+       
         return response()->json([
             'success' => true,
-            'data' => $file,
+            'data' => [
+                'commit' => $commit,
+                'file' => $file,
+            ],
         ]);
     }
 
